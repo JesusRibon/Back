@@ -41,3 +41,65 @@ Incluye seguridad con **JWT**, documentación de endpoints con **Swagger**, vali
    ```bash
    git clone <repo-url>
    cd Back
+
+2️⃣ Crear archivo .env
+PORT=4000
+JWT_SECRET=super_secret_key
+DATABASE_URL=postgres://user:password@localhost:5432/deudas_db
+
+3️⃣ Crear tablas en PostgreSQL
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE debts (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE,
+  amount NUMERIC NOT NULL,
+  description TEXT,
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+4️⃣ Iniciar el servidor
+npm run dev
+
+5️⃣ Documentación Swagger
+
+👉 http://localhost:4000/api-docs
+
+📂 Estructura del proyecto
+src/
+ ├── config/        # Configuración (DB, Swagger)
+ ├── controllers/   # Lógica de negocio
+ ├── middleware/    # Middleware (auth)
+ ├── models/        # Clases/Modelos
+ ├── routes/        # Rutas de la API
+ └── index.js       # Punto de entrada
+
+✅ Endpoints principales
+🔹 Auth
+
+POST /auth/register
+
+POST /auth/login
+
+🔹 Deudas
+
+GET /debts
+
+GET /debts/:id
+
+POST /debts
+
+PUT /debts/:id
+
+DELETE /debts/:id
+
+PATCH /debts/:id/pay
+
+GET /debts/export
+
+GET /debts/summary
