@@ -42,12 +42,12 @@ Incluye seguridad con **JWT**, documentación de endpoints con **Swagger**, vali
    git clone <repo-url>
    cd Back
 
-2️⃣ Crear archivo .env
+2. Crear archivo .env
 PORT=4000
 JWT_SECRET=super_secret_key
 DATABASE_URL=postgres://user:password@localhost:5432/deudas_db
 
-3️⃣ Crear tablas en PostgreSQL
+3. Crear tablas en PostgreSQL
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email VARCHAR(100) UNIQUE NOT NULL,
@@ -63,10 +63,10 @@ CREATE TABLE debts (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-4️⃣ Iniciar el servidor
+4. Iniciar el servidor
 npm run dev
 
-5️⃣ Documentación Swagger
+5. Documentación Swagger
 
 👉 http://localhost:4000/api-docs
 
