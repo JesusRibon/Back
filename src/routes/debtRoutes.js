@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import auth from '../middleware/authMiddleware.js';
-import { createDebt, getDebts, updateDebt, deleteDebt, payDebt, exportDebts, summaryDebts } from '../controllers/debtController.js';
+import { createDebt, getDebts, getDebtById,  updateDebt, deleteDebt, payDebt, exportDebts, summaryDebts } from '../controllers/debtController.js';
 
 const router = Router();
 
@@ -52,6 +52,30 @@ router.post('/', createDebt);
  *         description: Lista de deudas
  */
 router.get('/', getDebts);
+
+
+/**
+ * @swagger
+ * /debts/{id}:
+ *   get:
+ *     summary: Obtener una deuda por ID
+ *     tags: [Debts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la deuda a consultar
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Deuda encontrada
+ *       404:
+ *         description: Deuda no encontrada
+ */
+router.get('/:id', getDebtById);
 
 /**
  * @swagger

@@ -1,7 +1,7 @@
 import Debt from '../models/Debt.js';
 import { setCache, getCache } from '../config/redisCache.js';
 import { Parser } from 'json2csv';
-
+import pool from "../config/db.js";
 // Crear deuda
 export const createDebt = async (req, res) => {
   try {
@@ -33,6 +33,28 @@ export const getDebts = async (req, res) => {
     res.json(debts);
   } catch {
     res.status(500).json({ error: 'Error obteniendo deudas' });
+  }
+};
+
+// Obtener una deuda por ID
+export const getDebtById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const result = await pool.query(
+      "SELECT * FROM debts WHERE id = $1 AND user_id = $2",
+      [id, userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Deuda no encontrada" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error("❌ Error al obtener deuda:", err);
+    res.status(500).json({ error: "Error al obtener deuda" });
   }
 };
 
